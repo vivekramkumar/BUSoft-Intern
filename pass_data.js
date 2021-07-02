@@ -10,6 +10,7 @@ let p = require('python-shell');
 var x;
 app.get('/',function(req,res) {
   //res.sendFile('E:\\intern\\node-js\\form.ejs');
+
   res.render("form.ejs");
  // res.render("form.ejs",{name:'vivek'})
 });
@@ -27,8 +28,7 @@ app.post('/send',(req,res)=>{
 
       ]
     }
-    p.PythonShell.run('test_similar.py', options, function  (err, results)  {
-
+    p.PythonShell.run('final-similar.py', options,  function  (err, results)  {
       console.log(results)
         res.render('index.ejs',{name:results});
       //res.send(JSON.parse(results));
