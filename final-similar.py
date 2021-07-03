@@ -6,7 +6,6 @@ import sys
 
 warnings.filterwarnings("ignore")
 inp = json.loads(sys.argv[1])
-#print("test")
 #inp=input()
 
 df = pd.read_csv('E:\\intern\\threads1.csv')
@@ -49,9 +48,9 @@ tokenized_query = query.lower().split(" ")
 import time
 
 t0 = time.time()
-results = bm25.get_top_n(tokenized_query, df.Text.iloc[:len(data)].values, n=5)
+results = bm25.get_top_n(tokenized_query, df.Text.iloc[:len(data)].values, n=8)
 t1 = time.time()
-print(f'Searched {len(data)} records in {round(t1-t0,3) } seconds \n')
+#print(f'Searched {len(data)} records in {round(t1-t0,3) } seconds \n')
 
 class record:
     def __init__(self, incidentid, text,threadid):
@@ -59,13 +58,16 @@ class record:
         self.text = text
         self.thread_id=threadid
 
-finaldata=[]
+finaldata={"incident_id":1,"text":"test","thread_id":1}
+finaljson=[]
 for i in results:
     inc_id=int(df['Incident ID'][df['Text']==i])
     text=i
     thread_id=int(df['Incident Thread ID'][df['Text']==i])
-    finaldata.append(record(inc_id,i,thread_id))
-    
-for i in range(len(results)):
-    print(finaldata[i].__dict__,',')
-    sys.stdout.flush()
+    finaldata["incident_id"]=inc_id
+    finaldata["text"]=text
+    finaldata['thread_id']=thread_id
+    finaljson.append(finaldata.copy())
+jsonstr = json.dumps(finaljson)
+print(jsonstr)
+sys.stdout.flush()

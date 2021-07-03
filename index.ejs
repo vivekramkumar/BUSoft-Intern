@@ -51,31 +51,14 @@
           </tr> 
         </thead>
         <tbody>
-          <tr >
-                                        <td ><%=name[0]%></td>
-                                        
-                                        
-                                    </tr>
-                                    <tr >
-                                      <td ><%=name[1]%></td>
-                                      
-                                      
-                                  </tr>
-                                  <tr >
-                                    <td ><%=name[2]%></td>
-                                    
-                                    
-                                </tr>
-                                <tr >
-                                  <td ><%=name[3]%></td>
-                                  
-                                  
-                              </tr>
-                              <tr > 
-                                <td ><%=name[4]%></td>
+          <% for (var i = 0; i < name.length; /* I save the data in a variable 'quotation', I don't know how you named your variable  */  i++) { %>
+            <tr>
+              <td><%= name[i].incident_id %></td>
+              <td><%= name[i].text %></td>
+              <td><%= name[i].thread_id %></td>
+            </tr>    
+           <% } %>
                                 
-                                
-                            </tr>
             
                                  
                                 

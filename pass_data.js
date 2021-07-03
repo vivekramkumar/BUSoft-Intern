@@ -28,9 +28,12 @@ app.post('/send',(req,res)=>{
 
       ]
     }
-    p.PythonShell.run('final-similar.py', options,  function  (err, results)  {
-      console.log(results)
-        res.render('index.ejs',{name:results});
+    p.PythonShell.run('final-similar.py', options,   function(err, results)  {
+      //console.log(results);
+      var jsonData = results;
+      var jsonParsed = JSON.parse(jsonData);
+      console.log(jsonParsed);
+        res.render('index.ejs',{name:jsonParsed});
       //res.send(JSON.parse(results));
       //res.end(); 
     });
