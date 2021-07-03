@@ -52,12 +52,6 @@ results = bm25.get_top_n(tokenized_query, df.Text.iloc[:len(data)].values, n=8)
 t1 = time.time()
 #print(f'Searched {len(data)} records in {round(t1-t0,3) } seconds \n')
 
-class record:
-    def __init__(self, incidentid, text,threadid):
-        self.incident_id = incidentid
-        self.text = text
-        self.thread_id=threadid
-
 finaldata={"incident_id":1,"text":"test","thread_id":1}
 finaljson=[]
 for i in results:
