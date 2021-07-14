@@ -3,10 +3,12 @@ import warnings
 import csv
 import spacy
 from tqdm import tqdm
-from clean_dataset import clean
+from cleaned import clean
 
 warnings.filterwarnings("ignore")
-df=clean()
+df = pd.read_csv('E:\\intern\\threads1.csv')
+incident= pd.read_csv('E:\\intern\\Incident.csv')
+df=clean(df,incident)
 
 
 
