@@ -3,36 +3,17 @@ import warnings
 import csv
 import json
 import sys
+from rank_bm25 import BM25Okapi
 
+from timeit import default_timer as timer
+from cleaned import clean
 warnings.filterwarnings("ignore")
 inp = json.loads(sys.argv[1])
 #inp=input()
-
+#t0 = timer()
 df = pd.read_csv('E:\\intern\\threads1.csv')
 incident= pd.read_csv('E:\\intern\\Incident.csv')
-#data.rename(columns={'Incident Thread ID':'Thread ID'},inplace=True)
-df.rename(columns={'Foreign Key':'Incident ID'},inplace=True)
-
-#f3=data[["Incident ID","Text"]].merge(incident[["Incident ID","Status","Subject"]],on="Incident ID",how="left")
-f3=df[["Incident Thread ID","Incident ID","Text","Thread Entry Type"]].merge(incident[["Incident ID","Status"]],on="Incident ID",how="left")
-#header_row=0
-#data.columns=data.iloc[header_row]
-#print(data.head(2))
-f3.set_index('Incident Thread ID')
-f3=f3[f3['Thread Entry Type']=='Customer']
-f3=f3[f3['Status'] == 'Solved']
-#data=f3["Subject"]
-df=f3
-df['Text']=df['Text'].str.replace("<div>",'')
-df['Text']=df['Text'].str.replace("<div>",'')
-df['Text']=df['Text'].str.replace('</div>','')
-df['Text']=df['Text'].str.replace('\n','')
-df['Text']=df['Text'].str.replace('<br>','')
-df['Text']=df['Text'].str.replace('<br />','')
-df['Text']=df['Text'].str.replace('<div style="margin:0px 0px 8px 0px;">','')
-df['Text']=df['Text'].str.replace('<span>','')
-df['Text']=df['Text'].str.replace('</span>','')
-df=df[df['Text'].str.len()>12]
+df=clean(df,incident)
 
 final=[]
 with open('E:\\intern\\final_full_length.csv', newline='',encoding="utf-8") as f:
@@ -40,17 +21,12 @@ with open('E:\\intern\\final_full_length.csv', newline='',encoding="utf-8") as f
     data = list(reader)
     final.append(data)
 
-from rank_bm25 import BM25Okapi
 bm25 = BM25Okapi(data)
 
 query = inp
 tokenized_query = query.lower().split(" ")
-import time
 
-t0 = time.time()
-results = bm25.get_top_n(tokenized_query, df.Text.iloc[:len(data)].values, n=8)
-t1 = time.time()
-#print(f'Searched {len(data)} records in {round(t1-t0,3) } seconds \n')
+results = bm25.get_top_n(tokenized_query, df.Text.iloc[:len(data)].values, n=5)
 
 finaldata={"incident_id":1,"text":"test","thread_id":1}
 finaljson=[]
@@ -62,6 +38,9 @@ for i in results:
     finaldata["text"]=text
     finaldata['thread_id']=thread_id
     finaljson.append(finaldata.copy())
+#t1 = timer()
 jsonstr = json.dumps(finaljson)
+#print("Time elapsed = ",t1-t0,"seconds")
+
 print(jsonstr)
-sys.stdout.flush()
+#sys.stdout.flush()
