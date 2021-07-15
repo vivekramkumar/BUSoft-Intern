@@ -30,7 +30,7 @@ app.post('/send',async (req,res)=>{
       ]
     }
     const start = Date.now();
-    p.PythonShell.run('final-similar.py', options,   async function(err, results)  {
+    p.PythonShell.run('final_similar.py', options,   async function(err, results)  {
       var jsonData = results;
       var jsonParsed = JSON.parse(jsonData);
       console.log(jsonParsed);

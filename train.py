@@ -4,7 +4,9 @@ import csv
 import spacy
 from tqdm import tqdm
 from cleaned import clean
-
+import pickle
+#from final_similar import BM25Okapi
+import final_similar
 warnings.filterwarnings("ignore")
 df = pd.read_csv('E:\\intern\\threads1.csv')
 incident= pd.read_csv('E:\\intern\\Incident.csv')
@@ -21,3 +23,13 @@ for doc in tqdm(nlp.pipe(df.Text.iloc[:].str.lower().values, disable=["tagger", 
 with open("E:\\intern\\final_full_length.csv", "w", newline="",encoding="utf-8") as f:
     writer = csv.writer(f)
     writer.writerows(tok_text)
+final=[]
+with open('E:\\intern\\final_full_length.csv', newline='',encoding="utf-8") as f:
+    reader = csv.reader(f)
+    data = list(reader)
+    final.append(data)
+bmi=final_similar.find_similar_api(data) 
+with open('E:\\intern\\object.txt', 'wb') as config_dictionary_file:
+ 
+  pickle.dump(bmi, config_dictionary_file)
+print("Training done!!")
