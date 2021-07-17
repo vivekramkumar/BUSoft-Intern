@@ -10,7 +10,7 @@ import final_similar
 warnings.filterwarnings("ignore")
 df = pd.read_csv('E:\\intern\\threads1.csv')
 incident= pd.read_csv('E:\\intern\\Incident.csv')
-df=clean(df,incident)
+df=clean(df,incident) #clean the dataset
 
 
 
@@ -29,7 +29,7 @@ with open('E:\\intern\\final_full_length.csv', newline='',encoding="utf-8") as f
     data = list(reader)
     final.append(data)
 bmi=final_similar.find_similar_api(data) 
-with open('E:\\intern\\object.txt', 'wb') as config_dictionary_file:
+with open('E:\\intern\\object.obj', 'wb') as object_file:
  
-  pickle.dump(bmi, config_dictionary_file)
+  pickle.dump(bmi, object_file)
 print("Training done!!")

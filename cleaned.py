@@ -5,15 +5,11 @@ wordLemm = WordNetLemmatizer()
 def clean(df,incident):
     df.rename(columns={'Foreign Key':'Incident ID'},inplace=True)
 
-    #f3=data[["Incident ID","Text"]].merge(incident[["Incident ID","Status","Subject"]],on="Incident ID",how="left")
-    f3=df[["Incident Thread ID","Incident ID","Text","Thread Entry Type"]].merge(incident[["Incident ID","Status"]],on="Incident ID",how="left")
-    #header_row=0
-    #data.columns=data.iloc[header_row]
-    #print(data.head(2))
-    f3.set_index('Incident Thread ID')
-    f3=f3[f3['Thread Entry Type']=='Customer']
-    f3=f3[f3['Status'] == 'Solved']
-    df=f3
+    df=df[["Incident Thread ID","Incident ID","Text","Thread Entry Type"]].merge(incident[["Incident ID","Status"]],on="Incident ID",how="left")
+    
+    df.set_index('Incident Thread ID')
+    df=df[df['Thread Entry Type']=='Customer']
+    df=df[df['Status'] == 'Solved']
     df['Text']=df['Text'].str.replace("<div>",'')
     df['Text']=df['Text'].str.replace("<div>",'')
     df['Text']=df['Text'].str.replace('</div>','')

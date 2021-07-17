@@ -102,13 +102,7 @@ class find_similar_api(find_similar):
             self.idf[word] = eps
 
     def get_scores(self, query):
-        """
-        The ATIRE BM25 variant uses an idf function which uses a log(idf) score. To prevent negative idf scores,
-        this algorithm also adds a floor to the idf value of epsilon.
-        See [Trotman, A., X. Jia, M. Crane, Towards an Efficient and Effective Search Engine] for more info
-        :param query:
-        :return:
-        """
+   
         score = np.zeros(self.corpus_size)
         doc_len = np.array(self.doc_len)
         for q in query:
@@ -119,7 +113,7 @@ class find_similar_api(find_similar):
 
     def get_batch_scores(self, query, doc_ids):
         """
-        Calculate bm25 scores between query and subset of all docs
+        Calculate  scores between query and subset of all docs
         """
         assert all(di < len(self.doc_freqs) for di in doc_ids)
         score = np.zeros(len(doc_ids))
@@ -140,17 +134,13 @@ def main():
     incident= pd.read_csv('E:\\intern\\Incident.csv')
     df=clean(df,incident)
 
-    final=[]
-
-
     with open('E:\\intern\\final_full_length.csv', newline='',encoding="utf-8") as f:
         reader = csv.reader(f)
         data = list(reader)
-        final.append(data)
 
-    with open('E:\\intern\\object.txt', 'rb') as config_dictionary_file:
+    with open('E:\\intern\\object.obj', 'rb') as object_file:
     
-        bmi=pickle.load(config_dictionary_file)
+        bmi=pickle.load(object_file)
 
 
     tokenized_query = inp.lower().split(" ")
