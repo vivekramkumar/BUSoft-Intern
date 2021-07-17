@@ -8,16 +8,11 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 let p = require('python-shell');
 
-var x;
 //const start = Date.now();
-
 app.get('/',function(req,res) {
 
   res.render("form.ejs");
 });
-
-
-
 
 app.post('/send',async (req,res)=>{
   console.log(req.body.fname);
